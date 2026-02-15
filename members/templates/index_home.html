@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Farmer-Worker Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Hero Section -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="jumbotron bg-light p-5 rounded-lg mb-4">
+                <h1 class="display-4 mb-4">Welcome to FarmWork</h1>
+                <p class="lead">Connect Farmers with Workers. Manage agricultural work efficiently.</p>
+                <hr class="my-4">
+                
+                {% if not request.session.user_id and not request.session.is_admin %}
+                    <p>Get started by creating an account:</p>
+                    <a class="btn btn-primary btn-lg me-2" href="{% url 'farmer_register' %}" role="button">
+                        <i class="bi bi-person-badge"></i> Register as Farmer
+                    </a>
+                    <a class="btn btn-success btn-lg me-2" href="{% url 'worker_register' %}" role="button">
+                        <i class="bi bi-person-check"></i> Register as Worker
+                    </a>
+                    <a class="btn btn-info btn-lg" href="{% url 'login' %}" role="button">
+                        <i class="bi bi-door-open"></i> Login
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="row mt-5">
+        <div class="col-md-3 mb-4">
+            <div class="stat-card">
+                <h5><i class="bi bi-people"></i> Total Farmers</h5>
+                <div class="value">{{ total_farmers }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stat-card">
+                <h5><i class="bi bi-briefcase"></i> Total Workers</h5>
+                <div class="value">{{ total_workers }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stat-card">
+                <h5><i class="bi bi-hammer"></i> Active Works</h5>
+                <div class="value">{{ total_works }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stat-card">
+                <h5><i class="bi bi-check-circle"></i> System Status</h5>
+                <div class="value" style="color: #28a745;">Active</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mt-5">
+        <h2 class="text-center mb-5">Features</h2>
+        
+        <div class="col-md-4 mb-4">
+            <div class="dashboard-card">
+                <h5><i class="bi bi-briefcase" style="color: #667eea;"></i> For Farmers</h5>
+                <ul class="list-unstyled mt-3">
+                    <li><i class="bi bi-check-circle" style="color: #28a745;"></i> Post work opportunities</li>
+                    <li><i class="bi bi-check-circle" style="color: #28a745;"></i> Assign work to workers</li>
+                    <li><i class="bi bi-check-circle" style="color: #28a745;"></i> Track work progress</li>
+                    <li><i class="bi bi-check-circle" style="color: #28a745;"></i> Payment management</li>
+                    <li><i class="bi bi-check-circle" style="color: #28a745;"></i> Worker ratings</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="dashboard-card">
+                <h5><i class="bi bi-person-check" style="color: #28a745;"></i> For Workers</h5>
+                <ul class="list-unstyled mt-3">
+                    <li><i class="bi bi-check-circle" style="color: #667eea;"></i> Browse available work</li>
+                    <li><i class="bi bi-check-circle" style="color: #667eea;"></i> Apply for work</li>
+                    <li><i class="bi bi-check-circle" style="color: #667eea;"></i> Track applications</li>
+                    <li><i class="bi bi-check-circle" style="color: #667eea;"></i> View earnings</li>
+                    <li><i class="bi bi-check-circle" style="color: #667eea;"></i> Build reputation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="dashboard-card">
+                <h5><i class="bi bi-shield-check" style="color: #ffc107;"></i> Admin Control</h5>
+                <ul class="list-unstyled mt-3">
+                    <li><i class="bi bi-check-circle" style="color: #ffc107;"></i> Monitor all users</li>
+                    <li><i class="bi bi-check-circle" style="color: #ffc107;"></i> Oversee all works</li>
+                    <li><i class="bi bi-check-circle" style="color: #ffc107;"></i> Track payments</li>
+                    <li><i class="bi bi-check-circle" style="color: #ffc107;"></i> Earn commission (5%)</li>
+                    <li><i class="bi bi-check-circle" style="color: #ffc107;"></i> User management</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

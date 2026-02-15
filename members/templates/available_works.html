@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Available Works{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4"><i class="bi bi-compass"></i> Available Works</h1>
+
+    <!-- Filters -->
+    <div class="dashboard-card mb-4">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <input type="text" name="location" class="form-control" placeholder="Search by location" value="{{ location|default:'' }}">
+            </div>
+            <div class="col-md-3">
+                <input type="number" name="wage_min" class="form-control" placeholder="Min wage" value="{{ wage_min|default:'' }}">
+            </div>
+            <div class="col-md-3">
+                <input type="number" name="wage_max" class="form-control" placeholder="Max wage" value="{{ wage_max|default:'' }}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Works List -->
+    <div class="row">
+        {% if works %}
+            {% for work in works %}
+                <div class="col-md-12 mb-3">
+                    <div class="work-card">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5>{{ work.title }}</h5>
+                                <p class="mb-1"><strong>Farmer:</strong> {{ work.farmer.username }}</p>
+                                <p class="mb-1"><strong>Location:</strong> <i class="bi bi-geo-alt"></i> {{ work.location }}</p>
+                                <p class="mb-1"><strong>Wage:</strong> <span class="badge badge-wage">₹{{ work.wage_amount }}/{{ work.wage_type }}</span></p>
+                                <p class="mb-0"><strong>Duration:</strong> {{ work.start_date }} to {{ work.end_date|default:"Ongoing" }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <form method="post" action="{% url 'apply_for_work' work.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm w-100 mb-2">
+                                        <i class="bi bi-check-circle"></i> Apply for Work
+                                    </button>
+                                </form>
+                                <button type="button" class="btn btn-outline-secondary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modal{{ work.id }}">
+                                    <i class="bi bi-info-circle"></i> Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal{{ work.id }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{ work.title }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>Description:</strong> {{ work.description }}</p>
+                                    <p><strong>Workers Needed:</strong> {{ work.required_workers }}</p>
+                                    <p><strong>Contact Phone:</strong> {{ work.contact_phone }}</p>
+                                    <p><strong>Posted by:</strong> {{ work.farmer.username }} ({{ work.farmer.phonenumber }})</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="post" action="{% url 'apply_for_work' work.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-success">Apply Now</button>
+                                    </form>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> No works available matching your criteria.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

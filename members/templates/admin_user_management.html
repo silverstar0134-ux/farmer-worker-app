@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin - User Management{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4"><i class="bi bi-people"></i> User Management</h1>
+
+    <!-- Filter Tabs -->
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link {% if role == 'all' %}active{% endif %}" href="?role=all">All Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if role == 'farmer' %}active{% endif %}" href="?role=farmer">Farmers</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if role == 'worker' %}active{% endif %}" href="?role=worker">Workers</a>
+        </li>
+    </ul>
+
+    <!-- Users Table -->
+    <div class="dashboard-card">
+        {% if users %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td><strong>{{ user.username }}</strong></td>
+                                <td>
+                                    {% if user.role == 'farmer' %}
+                                        <span class="badge bg-primary">Farmer</span>
+                                    {% else %}
+                                        <span class="badge bg-success">Worker</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ user.phonenumber }}</td>
+                                <td>{{ user.email|default:"N/A" }}</td>
+                                <td>{{ user.location }}</td>
+                                <td>
+                                    {% if user.is_blocked %}
+                                        <span class="badge bg-danger">Blocked</span>
+                                    {% else %}
+                                        <span class="badge bg-success">Active</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <form method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        {% if user.is_blocked %}
+                                            <button type="submit" name="action" value="unblock" class="btn btn-sm btn-success">
+                                                <i class="bi bi-unlock"></i> Unblock
+                                            </button>
+                                        {% else %}
+                                            <button type="submit" name="action" value="block" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                                <i class="bi bi-lock"></i> Block
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> No users found.
+            </div>
+        {% endif %}
+    </div>
+
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</div>
+{% endblock %}

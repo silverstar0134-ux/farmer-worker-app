@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Assign Work{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="dashboard-card">
+                <h2 class="mb-4"><i class="bi bi-person-check"></i> Assign Work</h2>
+
+                <div class="alert alert-info">
+                    <strong>Work:</strong> {{ work.title }}<br>
+                    <strong>Location:</strong> {{ work.location }}<br>
+                    <strong>Wage:</strong> ₹{{ work.wage_amount }} ({{ work.get_wage_type_display }})
+                </div>
+
+                <h5 class="mb-3">Select Worker to Assign</h5>
+
+                {% if applications %}
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% for app in applications %}
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-8">
+                                            <h6 class="card-title">{{ app.worker.username }}</h6>
+                                            <p class="mb-1"><strong>Phone:</strong> {{ app.worker.phonenumber }}</p>
+                                            <p class="mb-1"><strong>Location:</strong> {{ app.worker.location }}</p>
+                                            {% if app.worker.worker_profile %}
+                                                <p class="mb-1"><strong>Skills:</strong> {{ app.worker.worker_profile.skills }}</p>
+                                                <p class="mb-0"><strong>Experience:</strong> {{ app.worker.worker_profile.experience_years }} years</p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="submit" name="application_id" value="{{ app.id }}" class="btn btn-success w-100">
+                                                <i class="bi bi-check-circle"></i> Assign
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </form>
+                {% else %}
+                    <div class="alert alert-warning">
+                        No workers have applied for this work yet.
+                    </div>
+                {% endif %}
+
+                <a href="{% url 'work_details' work.id %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login | Farmer Work App</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+}
+.bg{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        to top,
+        #3e8e41 0%,
+        #6fbf73 35%,
+        #c8e6c9 55%,
+        #e3f2fd 75%,
+        #f5faff 100%
+    );
+    z-index:-2;
+}
+
+
+/* 📦 Login Box */
+.login-box{
+    width:360px;
+    background:#fff;
+    margin:auto;
+    margin-top:90px;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.2);
+    animation:fadeUp 1s ease;
+}
+
+@keyframes fadeUp{
+    from{ transform:translateY(40px); opacity:0; }
+    to{ transform:translateY(0); opacity:1; }
+}
+
+.login-box h2{
+    text-align:center;
+    color:#2e7d32;
+}
+
+.login-box p{
+    text-align:center;
+    font-size:14px;
+    margin-bottom:20px;
+    color:#555;
+}
+
+/* Inputs */
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group input{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:14px;
+}
+
+.input-group input:focus{
+    outline:none;
+    border-color:#4caf50;
+}
+
+/* Role select */
+.role{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.role label{
+    flex:1;
+    text-align:center;
+    padding:10px;
+    border:1px solid #4caf50;
+    border-radius:8px;
+    cursor:pointer;
+    color:#2e7d32;
+}
+
+.role input{
+    display:none;
+}
+
+.role input:checked + label{
+    background:#4caf50;
+    color:#fff;
+}
+
+/* Button */
+button{
+    width:100%;
+    padding:12px;
+    background:#4caf50;
+    border:none;
+    border-radius:8px;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#43a047;
+}
+
+/* Links */
+.links{
+    display:flex;
+    justify-content:space-between;
+    margin-top:15px;
+    font-size:13px;
+}
+
+.links a{
+    text-decoration:none;
+    color:#2e7d32;
+    font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+<div class="clouds"></div>
+
+<div class="login-box">
+    <h2>🌾 Farmer Work</h2>
+    <p>Login to your account</p>
+
+    <div class="input-group">
+        <input type="tel" placeholder="Mobile Number">
+    </div>
+
+    <div class="input-group">
+        <input type="password" placeholder="Password">
+    </div>
+
+    <div class="role">
+        <input type="radio" id="farmer" name="role" checked>
+        <label for="farmer">👨‍🌾 Farmer</label>
+
+        <input type="radio" id="worker" name="role">
+        <label for="worker">👷 Worker</label>
+    </div>
+
+    <button>Login</button>
+
+    <div class="links">
+        <a href="#">Forgot Password?</a>
+        <a href="register.html">Register</a>
+    </div>
+</div>
+
+</body>
+</html>

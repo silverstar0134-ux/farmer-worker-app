@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Add New Work</title>
+</head>
+<body>
+    <h1>Add New Work</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p><input type="text" name="title" placeholder="Work title" required></p>
+        <p><textarea name="description" placeholder="Work description" required></textarea></p>
+        <p><input type="text" name="location" placeholder="Work location" required></p>
+        <p><input type="number" name="num_workers" placeholder="Number of workers needed" required></p>
+        <p><input type="text" name="salary" placeholder="Salary per day or total" required></p>
+        <p>
+            <select name="salary_type" required>
+                <option value="per_day">Per Day</option>
+                <option value="total">Total</option>
+            </select>
+        </p>
+        <p>Start date: <input type="date" name="start_date" required></p>
+        <p>End date: <input type="date" name="end_date"></p>
+        <p><input type="tel" name="contact_phone" placeholder="Contact phone number" required></p>
+        <p><button type="submit">Submit</button></p>
+    </form>
+    <p><a href="/farmer/dashboard/">Back to dashboard</a></p>
+</body>
+</html>

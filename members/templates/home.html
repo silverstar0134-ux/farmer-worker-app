@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>online farmer works </title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+    background:#f5f6fa;
+}
+
+.header{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:#fff;
+    padding:15px;
+}
+
+.header h2{
+    text-align:center;
+}
+
+.search{
+    margin-top:10px;
+}
+
+.search input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+}
+
+
+.categories{
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+}
+
+.cat{
+    min-width:90px;
+    background:#fff;
+    border-radius:12px;
+    padding:15px 10px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.banner{
+    background:linear-gradient(135deg,#ff512f,#dd2476);
+    color:#fff;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    font-size:18px;
+}
+
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.product{
+    background:#fff;
+    border-radius:15px;
+    padding:10px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+.product img{
+    width:100%;
+    border-radius:10px;
+}
+
+.product h4{
+    font-size:14px;
+    margin:8px 0;
+}
+
+.product span{
+    color:green;
+    font-weight:600;
+}
+
+.nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#fff;
+    display:flex;
+    justify-content:space-around;
+    padding:10px 0;
+    box-shadow:0 -5px 20px rgba(0,0,0,0.15);
+}
+</style>
+</head>
+
+<body>
+
+<!-- Header -->
+<div class="header">
+    <h2>🛒 ShopEasy</h2>
+    <div class="search">
+        <input type="text" placeholder="Search products...">
+    </div>
+</div>
+
+<!-- Categories -->
+<div class="section">
+    <h3>Shop by Category</h3>
+    <div class="categories">
+        <div class="cat">📱<br>Mobiles</div>
+        <div class="cat">👕<br>Fashion</div>
+        <div class="cat">🍔<br>Grocery</div>
+        <div class="cat">💻<br>Electronics</div>
+        <div class="cat">🏠<br>Home</div>
+        <div class="cat">🧸<br>Toys</div>
+    </div>
+</div>
+
+
+<div class="section">
+    <h3>Popular Products</h3>
+    <div class="products">
+
+        <div class="product">
+            <img src="https://via.placeholder.com/150">
+            <h4>Smart Phone</h4>
+            <span>₹12,999</span>
+        </div>
+
+        <div class="product">
+            <img src="https://via.placeholder.com/150">
+            <h4>Headphones</h4>
+            <span>₹1,499</span>
+        </div>
+
+        <div class="product">
+            <img src="https://via.placeholder.com/150">
+            <h4>Men Shirt</h4>
+            <span>₹799</span>
+        </div>
+
+        <div class="product">
+            <img src="https://via.placeholder.com/150">
+            <h4>Kitchen Set</h4>
+            <span>₹2,299</span>
+        </div>
+
+    </div>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="nav">
+    <div>🏠 Home</div>
+    <div>❤️ Wishlist</div>
+    <div>🛒 Cart</div>
+    <div>👤 Profile</div>
+</div>
+
+</body>
+</html>

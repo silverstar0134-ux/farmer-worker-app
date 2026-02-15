@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4"><i class="bi bi-shield-check"></i> Admin Dashboard</h1>
+
+    <!-- Key Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <h5><i class="bi bi-people"></i> Total Farmers</h5>
+                <div class="value">{{ total_farmers }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="border-left-color: #28a745;">
+                <h5>Total Workers</h5>
+                <div class="value" style="color: #28a745;">{{ total_workers }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="border-left-color: #17a2b8;">
+                <h5>Total Works</h5>
+                <div class="value" style="color: #17a2b8;">{{ total_works }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="border-left-color: #ffc107;">
+                <h5>Blocked Users</h5>
+                <div class="value" style="color: #ffc107;">{{ blocked_users }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Financial Summary -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <div class="dashboard-card">
+                <h5><i class="bi bi-coin"></i> Total Payments</h5>
+                <p class="display-5" style="color: #667eea;">₹{{ total_payments }}</p>
+                <a href="{% url 'admin_all_payments' %}" class="btn btn-sm btn-outline-primary">View Details</a>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="dashboard-card">
+                <h5><i class="bi bi-wallet2"></i> Admin Commission (5%)</h5>
+                <p class="display-5" style="color: #28a745;">₹{{ total_commission }}</p>
+                <a href="{% url 'admin_all_payments' %}" class="btn btn-sm btn-outline-success">View Details</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completed Works -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h5>Completed Works</h5>
+                <p class="display-6" style="color: #28a745;">{{ completed_works }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Management Links -->
+    <div class="row">
+        <h3 class="mb-3">Management</h3>
+        
+        <div class="col-md-4 mb-3">
+            <div class="dashboard-card text-center">
+                <h5><i class="bi bi-people" style="font-size: 2rem; color: #667eea;"></i></h5>
+                <h6>User Management</h6>
+                <p class="text-muted">Manage farmers and workers, block/unblock users</p>
+                <a href="{% url 'admin_user_management' %}" class="btn btn-sm btn-primary">Go to Users</a>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="dashboard-card text-center">
+                <h5><i class="bi bi-hammer" style="font-size: 2rem; color: #28a745;"></i></h5>
+                <h6>Work Management</h6>
+                <p class="text-muted">View and monitor all work postings</p>
+                <a href="{% url 'admin_all_works' %}" class="btn btn-sm btn-success">Go to Works</a>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="dashboard-card text-center">
+                <h5><i class="bi bi-wallet2" style="font-size: 2rem; color: #ffc107;"></i></h5>
+                <h6>Payment & Commission</h6>
+                <p class="text-muted">View all payments and commission earned</p>
+                <a href="{% url 'admin_all_payments' %}" class="btn btn-sm btn-warning">Go to Payments</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

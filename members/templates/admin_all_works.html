@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin - All Works{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4"><i class="bi bi-hammer"></i> All Works</h1>
+
+    <!-- Filter Tabs -->
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link {% if status == 'all' %}active{% endif %}" href="?status=all">All</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if status == 'pending' %}active{% endif %}" href="?status=pending">Pending</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if status == 'in_progress' %}active{% endif %}" href="?status=in_progress">In Progress</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if status == 'completed' %}active{% endif %}" href="?status=completed">Completed</a>
+        </li>
+    </ul>
+
+    <!-- Works Table -->
+    <div class="dashboard-card">
+        {% if works %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Farmer</th>
+                            <th>Location</th>
+                            <th>Wage Amount</th>
+                            <th>Workers Needed</th>
+                            <th>Start Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for work in works %}
+                            <tr>
+                                <td><strong>{{ work.title }}</strong></td>
+                                <td>{{ work.farmer.username }}</td>
+                                <td>{{ work.location }}</td>
+                                <td>₹{{ work.wage_amount }}</td>
+                                <td>{{ work.required_workers }}</td>
+                                <td>{{ work.start_date }}</td>
+                                <td>
+                                    {% if work.status == 'pending' %}
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    {% elif work.status == 'in_progress' %}
+                                        <span class="badge bg-info">In Progress</span>
+                                    {% elif work.status == 'completed' %}
+                                        <span class="badge bg-success">Completed</span>
+                                    {% elif work.status == 'cancelled' %}
+                                        <span class="badge bg-danger">Cancelled</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> No works found.
+            </div>
+        {% endif %}
+    </div>
+
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</div>
+{% endblock %}

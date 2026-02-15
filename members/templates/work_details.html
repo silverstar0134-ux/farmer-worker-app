@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Work Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="dashboard-card">
+                <h2 class="mb-4">{{ work.title }}</h2>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <p><strong>Location:</strong> {{ work.location }}</p>
+                        <p><strong>Workers Needed:</strong> {{ work.required_workers }}</p>
+                        <p><strong>Wage Amount:</strong> <span class="badge badge-wage">₹{{ work.wage_amount }}</span></p>
+                        <p><strong>Wage Type:</strong> {{ work.get_wage_type_display }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Start Date:</strong> {{ work.start_date }}</p>
+                        <p><strong>End Date:</strong> {{ work.end_date|default:"N/A" }}</p>
+                        <p><strong>Contact Phone:</strong> {{ work.contact_phone }}</p>
+                        <p><strong>Status:</strong> 
+                            {% if work.status == 'pending' %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% elif work.status == 'in_progress' %}
+                                <span class="badge bg-info">In Progress</span>
+                            {% elif work.status == 'completed' %}
+                                <span class="badge bg-success">Completed</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h5>Description</h5>
+                    <p>{{ work.description }}</p>
+                </div>
+
+                {% if work.assigned_worker %}
+                    <div class="alert alert-success">
+                        <strong>Assigned to:</strong> {{ work.assigned_worker.username }}
+                    </div>
+                {% endif %}
+
+                <div class="d-flex gap-2">
+                    <a href="{% url 'assign_work' work.id %}" class="btn btn-primary" {% if work.assigned_worker %}disabled{% endif %}>
+                        <i class="bi bi-person-check"></i> Assign Worker
+                    </a>
+                    <a href="{% url 'update_work_status' work.id %}" class="btn btn-warning">
+                        <i class="bi bi-arrow-repeat"></i> Update Status
+                    </a>
+                    <a href="{% url 'farmer_dashboard' %}" class="btn btn-secondary">Back</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h5>Applications</h5>
+                {% if applications %}
+                    {% for app in applications %}
+                        <div class="mb-3 pb-3" style="border-bottom: 1px solid #eee;">
+                            <p class="mb-1"><strong>{{ app.worker.username }}</strong></p>
+                            <p class="mb-1 text-muted small">{{ app.worker.user_profile.location }}</p>
+                            <p class="mb-2">
+                                <span class="badge 
+                                    {% if app.status == 'applied' %}bg-info
+                                    {% elif app.status == 'accepted' %}bg-success
+                                    {% elif app.status == 'rejected' %}bg-danger{% endif %}">
+                                    {{ app.get_status_display }}
+                                </span>
+                            </p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No applications yet</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

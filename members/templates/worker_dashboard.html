@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Worker Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1><i class="bi bi-speedometer2"></i> Worker Dashboard</h1>
+            <p class="text-muted">Welcome, {{ current_user.username }}!</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{% url 'view_available_works' %}" class="btn btn-primary">
+                <i class="bi bi-compass"></i> Find Work
+            </a>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <h5><i class="bi bi-briefcase"></i> Available Works</h5>
+                <div class="value">{{ stats.available_works }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="border-left-color: #ffc107;">
+                <h5>Applied</h5>
+                <div class="value" style="color: #ffc107;">{{ stats.applied_works }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="border-left-color: #17a2b8;">
+                <h5>Assigned</h5>
+                <div class="value" style="color: #17a2b8;">{{ stats.assigned_works }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="border-left-color: #28a745;">
+                <h5>Completed</h5>
+                <div class="value" style="color: #28a745;">{{ stats.completed_works }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Earnings -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h5><i class="bi bi-wallet2"></i> Total Earnings</h5>
+                <p class="display-6" style="color: #28a745;">₹{{ stats.total_earnings }}</p>
+                <a href="{% url 'worker_payments' %}" class="btn btn-sm btn-outline-success">View Earnings</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Works -->
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="mb-3">Available Works in Your Area</h3>
+            
+            {% if available_works %}
+                {% for work in available_works %}
+                    <div class="work-card">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5>{{ work.title }}</h5>
+                                <p class="mb-1"><strong>Farmer:</strong> {{ work.farmer.username }}</p>
+                                <p class="mb-1"><strong>Location:</strong> {{ work.location }}</p>
+                                <p class="mb-1"><strong>Wage:</strong> <span class="badge badge-wage">₹{{ work.wage_amount }}/{{ work.wage_type }}</span></p>
+                                <p class="mb-0"><strong>Start Date:</strong> {{ work.start_date }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <form method="post" action="{% url 'apply_for_work' work.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-success w-100">
+                                        <i class="bi bi-check-circle"></i> Apply
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <div class="text-center">
+                    <a href="{% url 'view_available_works' %}" class="btn btn-outline-primary">View All Available Works</a>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> No available works in your area right now.
+                    <a href="{% url 'view_available_works' %}">Browse all works</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

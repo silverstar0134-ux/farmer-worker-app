@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login | Farmer Work App</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background:linear-gradient(135deg,#1b5e20,#43a047,#81c784);
+    background-size:300% 300%;
+    animation:gradientMove 8s ease infinite;
+}
+
+@keyframes gradientMove{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+}
+
+/* Glass Login Card */
+.login-box{
+    width:380px;
+    padding:40px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(15px);
+    box-shadow:0 20px 50px rgba(0,0,0,0.3);
+    color:#fff;
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    from{ opacity:0; transform:translateY(40px); }
+    to{ opacity:1; transform:translateY(0); }
+}
+
+.login-box h2{
+    text-align:center;
+    margin-bottom:10px;
+    font-weight:600;
+}
+
+.login-box p{
+    text-align:center;
+    font-size:14px;
+    margin-bottom:25px;
+    opacity:0.9;
+}
+
+/* Input Fields */
+.input-group{
+    margin-bottom:20px;
+}
+
+.input-group input{
+    width:100%;
+    padding:12px 15px;
+    border-radius:12px;
+    border:none;
+    outline:none;
+    font-size:14px;
+    background:rgba(255,255,255,0.2);
+    color:#fff;
+    transition:0.3s;
+}
+
+.input-group input::placeholder{
+    color:#eee;
+}
+
+.input-group input:focus{
+    background:rgba(255,255,255,0.3);
+    box-shadow:0 0 10px rgba(255,255,255,0.4);
+}
+
+/* Button */
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    background:linear-gradient(135deg,#66bb6a,#2e7d32);
+    color:#fff;
+    transition:0.3s ease;
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* Register Link */
+.register-link{
+    text-align:center;
+    margin-top:20px;
+    font-size:14px;
+}
+
+.register-link a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.register-link a:hover{
+    text-decoration:underline;
+    color:#dcedc8;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<div class="login-box">
+    <h2>🌾 Farmer Work</h2>
+    <p>Login to your account</p>
+
+    <form method="post">
+        
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="tel" name="phonenumber" placeholder="Mobile Number" required>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+
+        <button type="submit">Login</button>
+
+        <div class="register-link">
+            Don't have an account?
+            <a href="{% url 'farmer_register' %}">Farmer Register</a> | 
+            <a href="{% url 'worker_register' %}">Worker Register</a>
+        </div>
+    </form> 
+</div>
+
+</body>
+</html>

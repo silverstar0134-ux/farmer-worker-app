@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4"><i class="bi bi-person-circle"></i> User Profile</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="user-box">
+                <i class="bi bi-person-circle" style="font-size: 4rem; color: #667eea;"></i>
+                <h5>{{ current_user.username }}</h5>
+                <p class="text-muted">{{ current_user.get_role_display }}</p>
+                <hr>
+                <p><strong>Phone:</strong> {{ current_user.phonenumber }}</p>
+                <p><strong>Email:</strong> {{ current_user.email|default:"N/A" }}</p>
+                <p><strong>Location:</strong> {{ current_user.location }}</p>
+                <p><strong>Joined:</strong> {{ current_user.created_at|date:"M d, Y" }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="dashboard-card">
+                <h5 class="mb-4">
+                    {% if current_user.role == 'farmer' %}
+                        <i class="bi bi-briefcase"></i> Farmer Profile Details
+                    {% else %}
+                        <i class="bi bi-person-check"></i> Worker Profile Details
+                    {% endif %}
+                </h5>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% if form %}
+                        {{ form.as_p }}
+                    {% endif %}
+
+                    {% if current_user.role == 'farmer' %}
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Land Size:</strong></label>
+                            <p>{{ form.land_size.value|default:"Not set" }} acres</p>
+                        </div>
+                    {% else %}
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Skills:</strong></label>
+                            <p>{{ form.skills.value|default:"Not set" }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Experience:</strong></label>
+                            <p>{{ form.experience_years.value|default:"0" }} years</p>
+                        </div>
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </form>
+            </div>
+
+            <!-- Additional Info -->
+            {% if current_user.role == 'farmer' %}
+                <div class="dashboard-card mt-3">
+                    <h5>Farmer Statistics</h5>
+                    <p><strong>Total Works Posted:</strong> 
+                        {% if current_user.farmer_profile %}
+                            {{ current_user.farmer_profile.total_works_posted }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </p>
+                    <p><strong>Workers Hired:</strong> 
+                        {% if current_user.farmer_profile %}
+                            {{ current_user.farmer_profile.total_workers_hired }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </p>
+                    <p><strong>Rating:</strong> 
+                        {% if current_user.farmer_profile %}
+                            {% for n in "12345" %}
+                                {% if n|add:0 <= current_user.farmer_profile.rating %}
+                                    <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                                {% else %}
+                                    <i class="bi bi-star" style="color: #ddd;"></i>
+                                {% endif %}
+                            {% endfor %}
+                            ({{ current_user.farmer_profile.rating }}/5)
+                        {% else %}
+                            No rating yet
+                        {% endif %}
+                    </p>
+                </div>
+            {% else %}
+                <div class="dashboard-card mt-3">
+                    <h5>Worker Statistics</h5>
+                    <p><strong>Works Completed:</strong> 
+                        {% if current_user.worker_profile %}
+                            {{ current_user.worker_profile.total_works_completed }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </p>
+                    <p><strong>Total Earnings:</strong> ₹
+                        {% if current_user.worker_profile %}
+                            {{ current_user.worker_profile.total_earnings }}
+                        {% else %}
+                            0.00
+                        {% endif %}
+                    </p>
+                    <p><strong>Rating:</strong> 
+                        {% if current_user.worker_profile %}
+                            {% for n in "12345" %}
+                                {% if n|add:0 <= current_user.worker_profile.rating %}
+                                    <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                                {% else %}
+                                    <i class="bi bi-star" style="color: #ddd;"></i>
+                                {% endif %}
+                            {% endfor %}
+                            ({{ current_user.worker_profile.rating }}/5)
+                        {% else %}
+                            No rating yet
+                        {% endif %}
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Farmer-Worker Management System{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<style>
+    body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #eef2ff, #f8f9ff);
+}
+
+/* NAVBAR */
+.navbar {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+}
+
+.nav-link {
+    color: #fff !important;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #ffd369 !important;
+}
+
+/* SIDEBAR */
+.sidebar-nav {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px 0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.sidebar-nav a {
+    color: #444;
+    padding: 12px 25px;
+    border-left: 4px solid transparent;
+    transition: 0.3s ease;
+    display: block;
+    font-weight: 500;
+}
+
+.sidebar-nav a:hover {
+    border-left-color: #2a5298;
+    background: #eef2ff;
+    color: #2a5298;
+}
+
+.sidebar-nav a.active {
+    border-left-color: #1e3c72;
+    background: #dbeafe;
+    color: #1e3c72;
+    font-weight: 600;
+}
+
+/* CARDS */
+.dashboard-card {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+}
+
+/* STAT CARD */
+.stat-card {
+    background: linear-gradient(135deg, #2a5298, #1e3c72);
+    color: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.stat-card h5 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.stat-card .value {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* BUTTON */
+.btn-primary {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    transition: 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* FORM */
+.form-control, .form-select {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    transition: 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #2a5298;
+    box-shadow: 0 0 0 0.2rem rgba(42,82,152,0.2);
+}
+
+/* WORK CARD */
+.work-card {
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    background: white;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: 0.3s ease;
+}
+
+.work-card:hover {
+    transform: scale(1.02);
+    border-left: 5px solid #2a5298;
+}
+
+/* TABLE */
+.table {
+    border-radius: 15px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+table thead {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+}
+
+/* USER BOX */
+.user-box {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* FOOTER */
+.footer {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 30px 0;
+    margin-top: 50px;
+    border-radius: 20px 20px 0 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .sidebar-nav {
+        margin-bottom: 20px;
+    }
+}
+</style>
+</head>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <i class="bi bi-sprout"></i> FarmWork
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if request.session.user_id %}
+                        {% if request.session.role == 'farmer' %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'farmer_dashboard' %}">Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'post_work' %}">Post Work</a></li>
+                        {% elif request.session.role == 'worker' %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'worker_dashboard' %}">Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'view_available_works' %}">Find Work</a></li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'user_profile' %}">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                    {% elif request.session.is_admin %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'admin_dashboard' %}">Admin Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'admin_user_management' %}">Users</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'admin_all_works' %}">Works</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'admin_all_payments' %}">Payments</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'admin_logout' %}">Logout</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'farmer_register' %}">Farmer Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'worker_register' %}">Worker Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'admin_login' %}">Admin</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container text-center">
+            <p>&copy; 2024 Farmer-Worker Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

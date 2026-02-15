@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register | Farmer Work App</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+}
+
+/* Background */
+.bg{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        to top,
+        #2e7d32 25%,
+        #66bb6a 45%,
+        #b3e5fc 70%,
+        #e3f2fd 100%
+    );
+    z-index:-1;
+}
+
+/* Register Card */
+.register-box{
+    width:380px;
+    background:#fff;
+    margin:60px auto;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.2);
+    animation:slideUp 1s ease;
+}
+
+@keyframes slideUp{
+    from{ transform:translateY(40px); opacity:0; }
+    to{ transform:translateY(0); opacity:1; }
+}
+
+.register-box h2{
+    text-align:center;
+    color:#2e7d32;
+}
+
+.register-box p{
+    text-align:center;
+    font-size:14px;
+    margin-bottom:20px;
+    color:#555;
+}
+
+/* Inputs */
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group input,
+.input-group select{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:14px;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+    outline:none;
+    border-color:#4caf50;
+}
+
+/* Role */
+.role{
+    display:flex;
+    gap:10px;
+}
+
+.role label{
+    flex:1;
+    text-align:center;
+    padding:10px;
+    border:1px solid #4caf50;
+    border-radius:8px;
+    cursor:pointer;
+    color:#2e7d32;
+}
+
+.role input{
+    display:none;
+}
+
+.role input:checked + label{
+    background:#4caf50;
+    color:#fff;
+}
+
+/* Button */
+button{
+    width:100%;
+    padding:12px;
+    background:#4caf50;
+    border:none;
+    border-radius:8px;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+/* Login link */
+.login-link{
+    text-align:center;
+    margin-top:15px;
+    font-size:14px;
+}
+
+.login-link a{
+    color:#2e7d32;
+    text-decoration:none;
+    font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<div class="register-box">
+    <h2>🌾 Farmer Work</h2>
+    <p>Create your account</p>
+
+    <form action="/register/" method="post">
+        {% csrf_token %}
+
+        <div class="input-group">
+            <input type="text" name="fname" placeholder="Full Name" required>
+        </div>
+
+        <div class="input-group">
+            <input type="tel" name="phone" placeholder="Mobile Number" required>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+        </div>
+
+        <div class="input-group role">
+            <input type="radio" id="farmer" name="role" value="farmer" checked>
+            <label for="farmer">👨‍🌾 Farmer</label>
+
+            <input type="radio" id="worker" name="role" value="worker">
+            <label for="worker">👷 Worker</label>
+        </div>
+
+        <div class="input-group">
+            <select name="work_time" required>
+                <option value="" disabled selected>Preferred Work Time</option>
+                <option value="morning">Morning</option>
+                <option value="evening">Evening</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <input type="text" name="location" placeholder="Village / City" required>
+        </div>
+
+        <button type="submit">Create Account</button>
+
+        <div class="login-link">
+            Already have an account?
+            <a href="/login/">Login</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
+

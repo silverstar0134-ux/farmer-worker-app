@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Farmer Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1><i class="bi bi-speedometer2"></i> Farmer Dashboard</h1>
+            <p class="text-muted">Welcome, {{ current_user.username }}!</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{% url 'post_work' %}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Post New Work
+            </a>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <h5><i class="bi bi-hammer"></i> Total Works</h5>
+                <div class="value">{{ stats.total_works }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="border-left-color: #ffc107;">
+                <h5>Pending</h5>
+                <div class="value" style="color: #ffc107;">{{ stats.pending_works }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="border-left-color: #17a2b8;">
+                <h5>In Progress</h5>
+                <div class="value" style="color: #17a2b8;">{{ stats.in_progress_works }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card" style="border-left-color: #28a745;">
+                <h5>Completed</h5>
+                <div class="value" style="color: #28a745;">{{ stats.completed_works }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Spent -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="dashboard-card">
+                <h5><i class="bi bi-wallet2"></i> Total Spent</h5>
+                <p class="display-6" style="color: #667eea;">₹{{ stats.total_spent }}</p>
+                <a href="{% url 'farmer_payments' %}" class="btn btn-sm btn-outline-primary">View Payments</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Works List -->
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="mb-3">Your Works</h3>
+            
+            {% if works %}
+                {% for work in works %}
+                    <div class="work-card">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5>{{ work.title }}</h5>
+                                <p class="mb-1"><strong>Location:</strong> {{ work.location }}</p>
+                                <p class="mb-1"><strong>Workers Needed:</strong> {{ work.required_workers }}</p>
+                                <p class="mb-1"><strong>Wage:</strong> <span class="badge badge-wage">₹{{ work.wage_amount }}/{{ work.wage_type }}</span></p>
+                                <p class="mb-0"><strong>Status:</strong> 
+                                    {% if work.status == 'pending' %}
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    {% elif work.status == 'in_progress' %}
+                                        <span class="badge bg-info">In Progress</span>
+                                    {% elif work.status == 'completed' %}
+                                        <span class="badge bg-success">Completed</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{% url 'work_details' work.id %}" class="btn btn-sm btn-primary">View Details</a>
+                                <a href="{% url 'update_work_status' work.id %}" class="btn btn-sm btn-warning">Update Status</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> You haven't posted any work yet.
+                    <a href="{% url 'post_work' %}">Post your first work</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

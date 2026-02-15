@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin - Payments & Commission{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4"><i class="bi bi-wallet2"></i> Payments & Commission</h1>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="stat-card">
+                <h5>Total Payments</h5>
+                <div class="value">₹{{ stats.total_payments }}</div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="stat-card" style="border-left-color: #28a745;">
+                <h5>Total Commission Earned</h5>
+                <div class="value" style="color: #28a745;">₹{{ stats.total_commission }}</div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="stat-card" style="border-left-color: #17a2b8;">
+                <h5>Total Paid Out</h5>
+                <div class="value" style="color: #17a2b8;">₹{{ stats.total_paid }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#payments">All Payments</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#commissions">Commission Details</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- Payments Tab -->
+        <div id="payments" class="tab-pane fade show active">
+            <div class="dashboard-card">
+                {% if payments %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Work</th>
+                                    <th>Farmer</th>
+                                    <th>Worker</th>
+                                    <th>Total Amount</th>
+                                    <th>Worker Share (95%)</th>
+                                    <th>Admin Commission (5%)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for payment in payments %}
+                                    <tr>
+                                        <td><strong>{{ payment.work.title }}</strong></td>
+                                        <td>{{ payment.farmer.username }}</td>
+                                        <td>{{ payment.worker.username }}</td>
+                                        <td>₹{{ payment.total_amount }}</td>
+                                        <td><span style="color: #28a745;">₹{{ payment.worker_share }}</span></td>
+                                        <td><span style="color: #ffc107;">₹{{ payment.admin_commission }}</span></td>
+                                        <td>
+                                            {% if payment.status == 'pending' %}
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                            {% elif payment.status == 'completed' %}
+                                                <span class="badge bg-info">Completed</span>
+                                            {% elif payment.status == 'paid' %}
+                                                <span class="badge bg-success">Paid</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> No payment records found.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Commission Tab -->
+        <div id="commissions" class="tab-pane fade">
+            <div class="dashboard-card">
+                {% if commissions %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Work</th>
+                                    <th>Commission Amount</th>
+                                    <th>Date Earned</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for commission in commissions %}
+                                    <tr>
+                                        <td><strong>{{ commission.work.title }}</strong></td>
+                                        <td><span style="color: #ffc107; font-weight: bold;">₹{{ commission.amount }}</span></td>
+                                        <td>{{ commission.created_at|date:"M d, Y" }}</td>
+                                        <td>
+                                            <span class="badge {% if commission.status == 'earned' %}bg-warning text-dark{% elif commission.status == 'paid' %}bg-success{% endif %}">
+                                                {{ commission.get_status_display }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> No commission records found.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</div>
+{% endblock %}
